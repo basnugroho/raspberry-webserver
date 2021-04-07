@@ -4,6 +4,7 @@ from pre_process import *
 from calculate_sentiment import sentimentTextBlob
 from vect_tfidf import vectorize
 from log_reg_sentiment import predict
+from log_reg_kategori_ggn import predict_ggn
 
 app = Flask(__name__)
 
@@ -23,11 +24,21 @@ def process():
     vectorized_text_df = vectorize(tweet)
     # sentiment = sentimentTextBlob(vectorized_text_df)
     sentiment = predict(vectorized_text_df)
-    data = {
-        "tweet": tweet,
-        "sentiment": str(sentiment),
-        }
-    return jsonify(data), 200
+    data = {}
+    if sentiment < 0:
+        kategori = predict_ggn(vectorized_text_df)
+        data = {
+            "tweet": tweet,
+            "sentiment": str(sentiment),
+            "kategori": str(kategori)
+            }
+        return jsonify(data), 200
+    else:
+        data = {
+            "tweet": tweet,
+            "sentiment": str(sentiment),
+            }
+        return jsonify(data), 200
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
