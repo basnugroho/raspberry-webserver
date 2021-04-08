@@ -18,12 +18,11 @@ def index():
 @app.route('/process', methods = ['POST'])
 def process():
     tweet = request.json['tweet']
-    # kata = clean_text(tweet)
-    # kata = find_replace('indihome', kata)
-    # kata = remove_stopwords_id(kata)
-    vectorized_text_df = vectorize(tweet)
+    replaced_entitiy_text = remove_stopwords_id(replace_mention(replace_product(replace_provider(str(tweet)))))
+    cleaned_text = clean_text(remove_stopwords_id(str(replaced_entitiy_text)))
+    vectorized_text_df = vectorize(cleaned_text,'tfidf_model.pkl')
     # sentiment = sentimentTextBlob(vectorized_text_df)
-    sentiment = predict(vectorized_text_df)
+    sentiment = predict(vectorized_text_df,'inet_model.sav')
     data = {}
     if sentiment < 0:
         kategori = predict_ggn(vectorized_text_df)

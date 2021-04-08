@@ -1,14 +1,14 @@
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 import pickle
 from pre_process import *
+import pandas as pd
 
 # load the model from disk
 #Load tfidf
 transformer = TfidfTransformer()
-loaded_vec = CountVectorizer(decode_error="replace",vocabulary=pickle.load(open("feature.pkl", "rb")))
 
-def vectorize(text):
-    cleaned_text = remove_stopwords_id(clean_text(text))
+def vectorize(cleaned_text, vect_model):
+    loaded_vec = CountVectorizer(decode_error="replace",vocabulary=pickle.load(open(vect_model, "rb")))
     cleaned_text_ls = pd.Series([cleaned_text])
     tfidf = transformer.fit_transform(loaded_vec.fit_transform(cleaned_text_ls))
     # transform to an array
