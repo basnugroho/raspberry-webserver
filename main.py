@@ -5,8 +5,10 @@ from calculate_sentiment import sentimentTextBlob
 from vect_tfidf import vectorize
 from log_reg_sentiment import predict
 from log_reg_kategori_ggn import predict_ggn
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def index():
@@ -17,7 +19,8 @@ def index():
 
 @app.route('/process', methods = ['POST'])
 def process():
-    tweet = request.json['tweet']
+    print(str(request.json['tweet']))
+    tweet = str(request.json['tweet'])
     replaced_entitiy_text = remove_stopwords_id(replace_mention(replace_product(replace_provider(str(tweet)))))
     cleaned_text = clean_text(remove_stopwords_id(str(replaced_entitiy_text)))
     vectorized_text_df = vectorize(cleaned_text,'tfidf_model.pkl')
@@ -37,7 +40,9 @@ def process():
             "tweet": tweet,
             "sentiment": str(sentiment),
             }
-        return jsonify(data), 200
+        response = jsonify(data)
+        print(response)
+        return response
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
