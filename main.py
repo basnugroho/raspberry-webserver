@@ -6,7 +6,10 @@ from vect_tfidf import vectorize
 from log_reg_sentiment import predict
 from log_reg_kategori_ggn import predict_ggn
 from flask_cors import CORS
+# netezza
+import nzpy
 
+conn = nzpy.connect(user="USER_TR5_ROC", password="TR5_ROC#8635",host='10.62.187.9', port=5480, database="TELKOMSHARE5", securityLevel=1,logLevel=0)
 app = Flask(__name__)
 CORS(app)
 
@@ -43,6 +46,23 @@ def process():
         response = jsonify(data)
         print(response)
         return response
+
+@app.route('/fact-usage-ffm', methods = ['POST'])
+def fact_usage_ffm():
+    conn = nzpy.connect(user="USER_TR5_ROC", password="TR5_ROC#8635",host='10.62.187.9', port=5480, database="TELKOMSHARE5", securityLevel=1,logLevel=0)
+    print(str(request.json['query']))
+    query = str(request.json['query'])
+    with conn.cursor() as cursor:
+        try:
+            cursor.execute(query)
+            print(f"query for {0} succeed".format("fact-usage-ffm"))
+            results = cursor.fetchall()
+            print(results)
+            response = jsonify(results)
+            return response
+        except Exception as e:
+            print(str(e))
+    
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
