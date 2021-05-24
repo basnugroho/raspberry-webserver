@@ -20,7 +20,7 @@ def index():
         }
     return jsonify(data), 200  
 
-@app.route('/process', methods = ['POST'])
+@app.route('/v1/sentiment/process', methods = ['POST'])
 def process():
     print(str(request.json['tweet']))
     tweet = str(request.json['tweet'])
@@ -56,6 +56,38 @@ def fact_usage_ffm():
         try:
             cursor.execute(query)
             print(f"query for {0} succeed".format("fact-usage-ffm"))
+            results = cursor.fetchall()
+            print(results)
+            response = jsonify(results)
+            return response
+        except Exception as e:
+            print(str(e))
+
+@app.route('/v1/netezza/telkomshare5', methods = ['POST'])
+def telkomshare5():
+    conn = nzpy.connect(user="USER_TR5_ROC", password="TR5_ROC#8635",host='10.62.187.9', port=5480, database="TELKOMSHARE5", securityLevel=1,logLevel=0)
+    print(str(request.json['query']))
+    query = str(request.json['query'])
+    with conn.cursor() as cursor:
+        try:
+            cursor.execute(query)
+            print(f"query for {0} succeed".format("telkomshare5"))
+            results = cursor.fetchall()
+            print(results)
+            response = jsonify(results)
+            return response
+        except Exception as e:
+            print(str(e))
+
+@app.route('/v1/netezza/telkomparam', methods = ['POST'])
+def telkomparam():
+    conn = nzpy.connect(user="USER_TR5_ROC", password="TR5_ROC#8635",host='10.62.187.9', port=5480, database="TELKOMPARAM", securityLevel=1,logLevel=0)
+    print(str(request.json['query']))
+    query = str(request.json['query'])
+    with conn.cursor() as cursor:
+        try:
+            cursor.execute(query)
+            print(f"query for {0} succeed".format("telkomparam"))
             results = cursor.fetchall()
             print(results)
             response = jsonify(results)
