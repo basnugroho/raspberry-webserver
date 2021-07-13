@@ -79,6 +79,22 @@ def telkomshare5():
         except Exception as e:
             print(str(e))
 
+@app.route('/v1/netezza/payments', methods = ['POST'])
+def payments():
+    conn = nzpy.connect(user="usr_tr5", password="newtelkom2018",host='10.62.187.9', port=5480, database="TELKOMPROD", securityLevel=1,logLevel=0)
+    print(str(request.json['query']))
+    query = str(request.json['query'])
+    with conn.cursor() as cursor:
+        try:
+            cursor.execute(query)
+            print(f"query for {0} succeed".format("telkomshare5"))
+            results = cursor.fetchall()
+            print(results)
+            response = jsonify(results)
+            return response
+        except Exception as e:
+            print(str(e))
+
 @app.route('/v1/netezza/telkomparam', methods = ['POST'])
 def telkomparam():
     conn = nzpy.connect(user="USER_TR5_ROC", password="TR5_ROC#8635",host='10.62.187.9', port=5480, database="TELKOMPARAM", securityLevel=1,logLevel=0)
