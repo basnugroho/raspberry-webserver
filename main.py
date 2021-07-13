@@ -94,6 +94,7 @@ def telkomparam():
             return response
         except Exception as e:
             print(str(e))
+    conn.close()
     
 
 if __name__ == "__main__":
