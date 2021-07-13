@@ -9,7 +9,6 @@ from flask_cors import CORS
 # netezza
 import nzpy
 
-#conn = nzpy.connect(user="USER_TR5_ROC", password="TR5_ROC#8635",host='10.62.187.9', port=5480, database="TELKOMSHARE5", securityLevel=1,logLevel=0)
 app = Flask(__name__)
 CORS(app)
 
