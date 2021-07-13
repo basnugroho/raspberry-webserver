@@ -9,7 +9,7 @@ from flask_cors import CORS
 # netezza
 import nzpy
 
-conn = nzpy.connect(user="USER_TR5_ROC", password="TR5_ROC#8635",host='10.62.187.9', port=5480, database="TELKOMSHARE5", securityLevel=1,logLevel=0)
+#conn = nzpy.connect(user="USER_TR5_ROC", password="TR5_ROC#8635",host='10.62.187.9', port=5480, database="TELKOMSHARE5", securityLevel=1,logLevel=0)
 app = Flask(__name__)
 CORS(app)
 
@@ -47,25 +47,9 @@ def process():
         print(response)
         return response
 
-@app.route('/fact-usage-ffm', methods = ['POST'])
-def fact_usage_ffm():
-    conn = nzpy.connect(user="USER_TR5_ROC", password="TR5_ROC#8635",host='10.62.187.9', port=5480, database="TELKOMSHARE5", securityLevel=1,logLevel=0)
-    print(str(request.json['query']))
-    query = str(request.json['query'])
-    with conn.cursor() as cursor:
-        try:
-            cursor.execute(query)
-            print(f"query for {0} succeed".format("fact-usage-ffm"))
-            results = cursor.fetchall()
-            print(results)
-            response = jsonify(results)
-            return response
-        except Exception as e:
-            print(str(e))
-
 @app.route('/v1/netezza/telkomshare5', methods = ['POST'])
 def telkomshare5():
-    conn = nzpy.connect(user="USER_TR5_ROC", password="TR5_ROC#8635",host='10.62.187.9', port=5480, database="TELKOMSHARE5", securityLevel=1,logLevel=0)
+    conn = nzpy.connect(user="USER_TR5_ROC", password="TR5_ROC#8635", host='10.62.187.9', port=5480, database="TELKOMSHARE5", securityLevel=1,logLevel=0)
     print(str(request.json['query']))
     query = str(request.json['query'])
     with conn.cursor() as cursor:
@@ -81,13 +65,13 @@ def telkomshare5():
 
 @app.route('/v1/netezza/payments', methods = ['POST'])
 def payments():
-    conn = nzpy.connect(user="usr_tr5", password="newtelkom2018",host='10.62.187.9', port=5480, database="TELKOMPROD", securityLevel=1,logLevel=0)
+    conn = nzpy.connect(user="usr_tr5", password="newtelkom2018", host='10.62.187.9', port=5480, database="TELKOMPROD", securityLevel=1,logLevel=0)
     print(str(request.json['query']))
     query = str(request.json['query'])
     with conn.cursor() as cursor:
         try:
             cursor.execute(query)
-            print(f"query for {0} succeed".format("telkomshare5"))
+            print(f"query for {0} succeed".format("TELKOMPROD"))
             results = cursor.fetchall()
             print(results)
             response = jsonify(results)
