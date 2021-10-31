@@ -3,3 +3,4 @@ __pycache__/
 *.ini
 *.sock
 idwiki-latest-pages-articles.xml.bz2
+./nohup.out

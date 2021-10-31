@@ -43,6 +43,7 @@ def flt():
     results = []
     for web in webs:
         results.append(page_loader_fe(web))
+        print(f"calculating {web}")
     data = {
         "detik.com": results[0],
         "youtube.com": results[1],
