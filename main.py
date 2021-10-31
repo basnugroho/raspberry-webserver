@@ -9,7 +9,7 @@ def welcome():
     return "Siap!"
 
 app.register_blueprint(speedtest_bp, url_prefix='/')
-#app.register_blueprint(flt_bp, url_prefix='/')
+app.register_blueprint(flt_bp, url_prefix='/')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=443)
