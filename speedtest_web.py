@@ -15,12 +15,18 @@ options.add_argument('--headless')
 options.add_argument('--no-sandbox')
 options.add_argument('--disable-gpu')
 
-webs = ["https://speedtest.net", "https://youtube.com", "https://jakmall.com"]
-def speedtest_web(web):
-    driver = webdriver.Chrome(options=options)
+driver = webdriver.Chrome(options=options)
 
-    display = Display(visible=0, size=(800, 600))
-    display.start()
+display = Display(visible=0, size=(800, 600))
+web = "https://speedtest.net"
+display.start()
+driver.get(web)
+print("browser ready")
+print(web)
+webs = ["https://speedtest.net", "https://youtube.com", "https://jakmall.com"]
+data_glob  = ""
+
+def speedtest_web(web):
     driver.get(web)
     print(web)
     time = convert_time_to_wib(datetime.now())
@@ -38,7 +44,7 @@ def speedtest_web(web):
 
     go_button = driver.find_element_by_xpath('/html/body/div[3]/div/div[3]/div/div/div/div[2]/div[3]/div[1]/a/span[4]')
     go_button.click()
-    sleep(120)
+    sleep(100)
     isp = driver.find_element_by_xpath('/html/body/div[3]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[4]/div/div[2]/div/div[1]/div/div[2]').text
     isp_ip = driver.find_element_by_xpath('/html/body/div[3]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[3]/div/div/div[1]/div[3]/div[2]').text
     server = driver.find_element_by_xpath('/html/body/div[3]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[3]/div/div/div[1]/div[2]/div[2]/a').text
@@ -62,11 +68,10 @@ def speedtest_web(web):
         "upload": upload+" Mbps",
         "result_url": f"https://www.speedtest.net/result/{result_id}"
         }
-    print(data)
-    driver.quit()
-    return data
+    #print(data)
+    #driver.quit()
+    return f"""{data}"""
 
 @speedtest_web_bp.route('/speedtest_web/')
-def speedtest_web_bp():
-    data = speedtest_web(webs[0])
-    return jsonify(data)
+def speedtest_browser():
+        return "speedtest remote di NOC dinonaktifkan"
